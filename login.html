@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Login | Simple Access</title>
+    <!-- Google Fonts for a cleaner, modern look -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* main card container */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(0px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 8px 18px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .login-container:hover {
+            transform: scale(1.01);
+        }
+
+        /* decorative header */
+        .brand-header {
+            background: #1e2a47;
+            padding: 1.8rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .brand-header i {
+            font-size: 2.8rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.7rem;
+            border-radius: 60%;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .brand-header h1 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        /* form area */
+        .form-area {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7c8ba0;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+            pointer-events: none;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.5rem;
+            background: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .input-group input:focus {
+            border-color: #3b71ca;
+            box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        /* extra options row */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0.6rem 0 1.6rem;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .checkbox-label input {
+            width: 1rem;
+            height: 1rem;
+            cursor: pointer;
+            accent-color: #1e2a47;
+        }
+
+        .forgot-link {
+            color: #3b71ca;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: #1e2a47;
+            text-decoration: underline;
+        }
+
+        /* login button */
+        .login-btn {
+            background: #1e2a47;
+            width: 100%;
+            padding: 0.85rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-btn i {
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #0f1a2f;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -10px rgba(30, 42, 71, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* divider and alternate login */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.8rem 0 1.2rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            font-size: 0.75rem;
+            color: #5b6e8c;
+            padding: 0 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-icon {
+            background: #f1f5f9;
+            border-radius: 2rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #334155;
+            font-size: 1.3rem;
+            transition: all 0.2s;
+            border: 1px solid #e2edf2;
+        }
+
+        .social-icon:hover {
+            background: #ffffff;
+            color: #1e2a47;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .signup-prompt {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .signup-prompt a {
+            color: #1e2a47;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 0.3rem;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* message feedback (demo) */
+        .demo-message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            background: #eef2ff;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            color: #1e2a47;
+            font-weight: 500;
+            transition: all 0.1s;
+            border-left: 3px solid #1e2a47;
+        }
+
+        /* responsiveness */
+        @media (max-width: 480px) {
+            .form-area {
+                padding: 1.5rem;
+            }
+
+            .brand-header {
+                padding: 1.4rem 1rem;
+            }
+
+            .brand-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="brand-header">
+            <i class="fas fa-shield-alt"></i>
+            <h1>Welcome back</h1>
+            <p>Sign in to your secure account</p>
+        </div>
+
+        <div class="form-area">
+            <!-- Login form with simple demo validation -->
+            <form id="loginForm" action="#" method="post">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="emailInput" name="email" placeholder="Email address" autocomplete="email"
+                        required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="passwordInput" name="password" placeholder="Password"
+                        autocomplete="current-password" required>
+                </div>
+
+                <div class="options-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberCheck"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link" id="forgotPwdLink">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Log in
+                </button>
+            </form>
+
+            <!-- demo feedback message (non-intrusive) -->
+            <div id="feedbackMessage" class="demo-message" style="display: none;"></div>
+
+            <div class="divider">
+                <span>or continue with</span>
+            </div>
+
+            <div class="social-buttons">
+                <a href="#" class="social-icon" aria-label="Google sign-in" id="googleMockBtn">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="social-icon" aria-label="GitHub sign-in" id="githubMockBtn">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-icon" aria-label="Microsoft sign-in" id="microsoftMockBtn">
+                    <i class="fab fa-microsoft"></i>
+                </a>
+            </div>
+
+            <div class="signup-prompt">
+                Don't have an account?
+                <a href="#" id="signupMockLink">Create account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // Same-origin API base: the Express server serves this page AND /api/auth,
+            // so a relative path works whether you run locally or deploy behind one domain.
+            const API_BASE = '/api/auth';
+
+            // DOM elements
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const rememberCheck = document.getElementById('rememberCheck');
+            const feedbackDiv = document.getElementById('feedbackMessage');
+            const forgotLink = document.getElementById('forgotPwdLink');
+            const googleBtn = document.getElementById('googleMockBtn');
+            const githubBtn = document.getElementById('githubMockBtn');
+            const microsoftBtn = document.getElementById('microsoftMockBtn');
+            const signupLink = document.getElementById('signupMockLink');
+
+            // helper to show feedback message (auto-hide after 3.5 secs)
+            let feedbackTimeout = null;
+            function showMessage(msg, isError = false) {
+                if (feedbackTimeout) clearTimeout(feedbackTimeout);
+                feedbackDiv.style.display = 'block';
+                feedbackDiv.textContent = msg;
+                // style depending on type: error gets light red background (optional)
+                if (isError) {
+                    feedbackDiv.style.backgroundColor = '#ffe6e5';
+                    feedbackDiv.style.borderLeftColor = '#c2410c';
+                    feedbackDiv.style.color = '#9b2c1d';
+                } else {
+                    feedbackDiv.style.backgroundColor = '#eef2ff';
+                    feedbackDiv.style.borderLeftColor = '#1e2a47';
+                    feedbackDiv.style.color = '#1e2a47';
+                }
+                feedbackTimeout = setTimeout(() => {
+                    feedbackDiv.style.display = 'none';
+                }, 3500);
+            }
+
+            // clear any active feedback when needed
+            function hideFeedback() {
+                if (feedbackTimeout) clearTimeout(feedbackTimeout);
+                feedbackDiv.style.display = 'none';
+            }
+
+            // Helper: Basic email validation (not super strict, but simple)
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            async function handleLogin(event) {
+                event.preventDefault();  // prevent actual form submission
+
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                // validations
+                if (!email) {
+                    showMessage('✉️ Please enter your email address.', true);
+                    emailInput.focus();
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    showMessage('📧 Please enter a valid email address (e.g., name@example.com).', true);
+                    emailInput.focus();
+                    return;
+                }
+                if (!password) {
+                    showMessage('🔒 Password cannot be empty. Please enter your password.', true);
+                    passwordInput.focus();
+                    return;
+                }
+
+                // "Remember me" just stores the email locally so the field is pre-filled next visit.
+                if (rememberCheck.checked) {
+                    localStorage.setItem('rememberedEmail', email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+
+                const btn = document.querySelector('.login-btn');
+                const originalBtnHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+                try {
+                    const response = await fetch(`${API_BASE}/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        showMessage(`⚠️ ${data.message || 'Login failed. Please try again.'}`, true);
+                        return;
+                    }
+
+                    // Store the JWT and user info for the dashboard to use
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('authUser', JSON.stringify(data.user));
+
+                    showMessage(`✅ Welcome back, ${data.user.name.split(' ')[0]}! Redirecting...`, false);
+
+                    // Direct the user to the diet planner dashboard after a successful login
+                    setTimeout(() => {
+                        window.location.href = 'dietplannerdash.html';
+                    }, 700);
+                } catch (err) {
+                    console.error('Login request failed:', err);
+                    showMessage('🚫 Could not reach the server. Please check your connection and try again.', true);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHtml;
+                }
+            }
+
+            // Pre-fill email if "Remember me" was previously checked
+            function loadStoredEmail() {
+                const storedEmail = localStorage.getItem('rememberedEmail');
+                if (storedEmail) {
+                    emailInput.value = storedEmail;
+                    rememberCheck.checked = true;
+                }
+            }
+
+            // Forgot password: not yet implemented on the backend. See build notes.
+            function handleForgotPassword(e) {
+                e.preventDefault();
+                showMessage('🚧 Password reset isn\'t available yet. Please contact support for now.', true);
+            }
+
+            // Social login: not yet implemented on the backend. See build notes.
+            function socialLogin(provider) {
+                showMessage(`🚧 ${provider} sign-in isn't available yet.`, true);
+            }
+
+            // Signup now goes to the real registration page
+            function handleSignup(e) {
+                e.preventDefault();
+                window.location.href = 'register.html';
+            }
+
+            // Attach event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            forgotLink.addEventListener('click', handleForgotPassword);
+            googleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                socialLogin('Google');
+            });
+            githubBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                socialLogin('GitHub');
+            });
+            microsoftBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                socialLogin('Microsoft');
+            });
+            signupLink.addEventListener('click', handleSignup);
+
+            // additional reset on focus to hide feedback when user starts typing
+            emailInput.addEventListener('focus', hideFeedback);
+            passwordInput.addEventListener('focus', hideFeedback);
+
+            // load "remember me" email from previous session (demo)
+            loadStoredEmail();
+
+            // optional: add Enter key quick submit (already covered by form submit)
+            // add small visual effect for modern feel
+            const inputs = document.querySelectorAll('.input-group input');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        loginForm.dispatchEvent(new Event('submit'));
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

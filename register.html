@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Create Account | Diet Planner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 8px 18px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 460px;
+            overflow: hidden;
+        }
+
+        .brand-header {
+            background: #1e2a47;
+            padding: 1.8rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .brand-header i {
+            font-size: 2.8rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.7rem;
+            border-radius: 60%;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .brand-header h1 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        .form-area {
+            padding: 2rem 2rem 2.2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            margin-bottom: 1.3rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7c8ba0;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.5rem;
+            background: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: #1e293b;
+            appearance: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #3b71ca;
+            box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        .field-hint {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin: -0.9rem 0 1.3rem 1rem;
+        }
+
+        .signup-btn {
+            background: #1e2a47;
+            width: 100%;
+            padding: 0.85rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .signup-btn:hover {
+            background: #0f1a2f;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -10px rgba(30, 42, 71, 0.4);
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .demo-message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            background: #eef2ff;
+            border-radius: 1rem;
+            padding: 0.6rem;
+            color: #1e2a47;
+            font-weight: 500;
+            border-left: 3px solid #1e2a47;
+        }
+
+        .login-prompt {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .login-prompt a {
+            color: #1e2a47;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 0.3rem;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .form-area {
+                padding: 1.5rem;
+            }
+
+            .brand-header {
+                padding: 1.4rem 1rem;
+            }
+
+            .brand-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="brand-header">
+            <i class="fas fa-utensils"></i>
+            <h1>Create your account</h1>
+            <p>Get a diet plan tailored to you</p>
+        </div>
+
+        <div class="form-area">
+            <form id="registerForm" action="#" method="post">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="nameInput" name="name" placeholder="Full name" autocomplete="name"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="emailInput" name="email" placeholder="Email address"
+                        autocomplete="email" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-birthday-cake"></i>
+                    <input type="number" id="ageInput" name="age" placeholder="Age" min="10" max="120" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-bullseye"></i>
+                    <select id="dietaryGoalInput" name="dietaryGoal" required>
+                        <option value="" disabled selected>Select your dietary goal</option>
+                        <option value="weight_loss">Weight loss</option>
+                        <option value="weight_gain">Weight gain</option>
+                        <option value="maintain_weight">Maintain current weight</option>
+                        <option value="manage_diabetes">Manage diabetes</option>
+                        <option value="manage_cardiovascular_health">Manage cardiovascular health</option>
+                        <option value="general_health">General health</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="passwordInput" name="password" placeholder="Password (min 8 characters)"
+                        autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmPasswordInput" name="confirmPassword"
+                        placeholder="Confirm password" autocomplete="new-password" minlength="8" required>
+                </div>
+
+                <button type="submit" class="signup-btn">
+                    <i class="fas fa-user-plus"></i> Create account
+                </button>
+            </form>
+
+            <div id="feedbackMessage" class="demo-message" style="display: none;"></div>
+
+            <div class="login-prompt">
+                Already have an account?
+                <a href="login.html">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const API_BASE = '/api/auth';
+
+            const registerForm = document.getElementById('registerForm');
+            const nameInput = document.getElementById('nameInput');
+            const emailInput = document.getElementById('emailInput');
+            const ageInput = document.getElementById('ageInput');
+            const dietaryGoalInput = document.getElementById('dietaryGoalInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+            const feedbackDiv = document.getElementById('feedbackMessage');
+
+            let feedbackTimeout = null;
+            function showMessage(msg, isError = false) {
+                if (feedbackTimeout) clearTimeout(feedbackTimeout);
+                feedbackDiv.style.display = 'block';
+                feedbackDiv.textContent = msg;
+                if (isError) {
+                    feedbackDiv.style.backgroundColor = '#ffe6e5';
+                    feedbackDiv.style.borderLeftColor = '#c2410c';
+                    feedbackDiv.style.color = '#9b2c1d';
+                } else {
+                    feedbackDiv.style.backgroundColor = '#eef2ff';
+                    feedbackDiv.style.borderLeftColor = '#1e2a47';
+                    feedbackDiv.style.color = '#1e2a47';
+                }
+                feedbackTimeout = setTimeout(() => { feedbackDiv.style.display = 'none'; }, 4000);
+            }
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            async function handleRegister(event) {
+                event.preventDefault();
+
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const age = ageInput.value.trim();
+                const dietaryGoal = dietaryGoalInput.value;
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+
+                if (!name) {
+                    showMessage('Please enter your full name.', true);
+                    nameInput.focus();
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    showMessage('Please enter a valid email address.', true);
+                    emailInput.focus();
+                    return;
+                }
+                if (!age || age < 10 || age > 120) {
+                    showMessage('Please enter a valid age.', true);
+                    ageInput.focus();
+                    return;
+                }
+                if (!dietaryGoal) {
+                    showMessage('Please select a dietary goal.', true);
+                    dietaryGoalInput.focus();
+                    return;
+                }
+                if (password.length < 8) {
+                    showMessage('Password must be at least 8 characters long.', true);
+                    passwordInput.focus();
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    showMessage('Passwords do not match.', true);
+                    confirmPasswordInput.focus();
+                    return;
+                }
+
+                const btn = document.querySelector('.signup-btn');
+                const originalBtnHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+
+                try {
+                    const response = await fetch(`${API_BASE}/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password, age: Number(age), dietaryGoal }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        showMessage(data.message || 'Registration failed. Please try again.', true);
+                        return;
+                    }
+
+                    // Registration logs the user in immediately (server returns a token)
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('authUser', JSON.stringify(data.user));
+
+                    showMessage(`Welcome, ${data.user.name.split(' ')[0]}! Redirecting to your dashboard...`, false);
+
+                    setTimeout(() => {
+                        window.location.href = 'dietplannerdash.html';
+                    }, 800);
+                } catch (err) {
+                    console.error('Registration request failed:', err);
+                    showMessage('Could not reach the server. Please check your connection and try again.', true);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnHtml;
+                }
+            }
+
+            registerForm.addEventListener('submit', handleRegister);
+        })();
+    </script>
+</body>
+
+</html>
