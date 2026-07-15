@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet Planner · Login & Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; }
+    body {
+      background: linear-gradient(135deg, #eef3f9 0%, #dce6f2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .auth-container {
+      max-width: 480px;
+      width: 100%;
+      background: white;
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      padding: 2.5rem 2.5rem 2.2rem;
+      transition: 0.3s;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .auth-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0b1e33;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .auth-header h1 i { color: #2a7de1; }
+    .auth-header p {
+      color: #54738f;
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+    }
+
+    /* ─── ROLE & MODE SELECTOR ─── */
+    .selector-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: #f3f7fc;
+      padding: 0.4rem;
+      border-radius: 60px;
+      border: 1px solid #e9eef4;
+    }
+    .selector-group .selector-btn {
+      flex: 1;
+      padding: 0.6rem 0.4rem;
+      border: none;
+      background: transparent;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1d3b5a;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .selector-group .selector-btn i { font-size: 0.9rem; }
+    .selector-group .selector-btn.active {
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      color: #1f5f9e;
+    }
+    .selector-group .selector-btn:hover:not(.active) { background: rgba(255,255,255,0.5); }
+
+    .mode-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.8rem;
+      background: #f3f7fc;
+      padding: 0.3rem;
+      border-radius: 60px;
+      border: 1px solid #e9eef4;
+    }
+    .mode-toggle .mode-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      background: transparent;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1d3b5a;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-toggle .mode-btn.active {
+      background: #1f5f9e;
+      color: white;
+      box-shadow: 0 4px 12px rgba(31,95,158,0.3);
+    }
+    .mode-toggle .mode-btn:hover:not(.active) { background: rgba(255,255,255,0.5); }
+
+    /* ─── FORM ─── */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #1d3b5a;
+      margin-bottom: 0.3rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d7e0eb;
+      border-radius: 60px;
+      font-size: 0.95rem;
+      transition: 0.15s;
+      outline: none;
+      background: #fafcff;
+    }
+    .form-group input:focus {
+      border-color: #1f5f9e;
+      box-shadow: 0 0 0 3px rgba(31,95,158,0.12);
+      background: white;
+    }
+    .form-group .input-hint {
+      font-size: 0.75rem;
+      color: #8aa3be;
+      margin-top: 0.2rem;
+      padding-left: 0.5rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      background: #1f5f9e;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: #164a7a; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(31,95,158,0.25); }
+    .btn-submit:active { transform: translateY(0); }
+
+    .btn-submit.admin-btn { background: #b13e3e; }
+    .btn-submit.admin-btn:hover { background: #8f2f2f; box-shadow: 0 8px 20px rgba(177,62,62,0.25); }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #54738f;
+    }
+    .auth-footer .switch-link {
+      color: #1f5f9e;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .auth-footer .switch-link:hover { color: #164a7a; }
+
+    .error-msg {
+      background: #fde8e8;
+      color: #b13e3e;
+      padding: 0.6rem 1rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .error-msg.show { display: flex; }
+
+    .success-msg {
+      background: #e3f5ec;
+      color: #1f8b4c;
+      padding: 0.6rem 1rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .success-msg.show { display: flex; }
+
+    /* ─── REGISTER EXTRA FIELDS ─── */
+    .register-fields {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .register-fields.show { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .register-fields .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+    @media (max-width: 450px) {
+      .register-fields .form-row { grid-template-columns: 1fr; }
+      .auth-container { padding: 1.8rem; }
+    }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0b1e33;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast i { margin-right: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<div class="auth-container" id="authContainer">
+  <!-- HEADER -->
+  <div class="auth-header">
+    <h1><i class="fas fa-utensils"></i> Diet Planner</h1>
+    <p>Manage your nutrition journey</p>
+  </div>
+
+  <!-- ROLE SELECTOR: User / Admin -->
+  <div class="selector-group" id="roleSelector">
+    <button class="selector-btn active" data-role="user"><i class="fas fa-user"></i> User</button>
+    <button class="selector-btn" data-role="admin"><i class="fas fa-shield-alt"></i> Admin</button>
+  </div>
+
+  <!-- MODE TOGGLE: Login / Register -->
+  <div class="mode-toggle" id="modeToggle">
+    <button class="mode-btn active" data-mode="login"><i class="fas fa-sign-in-alt"></i> Login</button>
+    <button class="mode-btn" data-mode="register"><i class="fas fa-user-plus"></i> Register</button>
+  </div>
+
+  <!-- ERROR / SUCCESS MESSAGES -->
+  <div class="error-msg" id="errorMsg"><i class="fas fa-exclamation-circle"></i> <span id="errorText">Error</span></div>
+  <div class="success-msg" id="successMsg"><i class="fas fa-check-circle"></i> <span id="successText">Success</span></div>
+
+  <!-- FORM -->
+  <form id="authForm" autocomplete="off">
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username"><i class="fas fa-user"></i> Username</label>
+      <input type="text" id="username" placeholder="Enter username" value="demo" required>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password"><i class="fas fa-lock"></i> Password</label>
+      <input type="password" id="password" placeholder="Enter password" value="demo" required>
+    </div>
+
+    <!-- Register extra fields (hidden by default) -->
+    <div class="register-fields" id="registerFields">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="regName"><i class="fas fa-user-circle"></i> Name</label>
+          <input type="text" id="regName" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label for="regSurname"><i class="fas fa-user-circle"></i> Surname</label>
+          <input type="text" id="regSurname" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="regEmail"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="regEmail" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="regConfirm"><i class="fas fa-lock"></i> Confirm Password</label>
+          <input type="password" id="regConfirm" placeholder="Re-enter password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-hint"><i class="fas fa-info-circle"></i> Additional profile details will be collected after login</div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn-submit" id="submitBtn">
+      <i class="fas fa-sign-in-alt"></i> <span id="submitLabel">Sign In</span>
+    </button>
+  </form>
+
+  <!-- Footer -->
+  <div class="auth-footer" id="authFooter">
+    <span id="switchText">Don't have an account?</span>
+    <span class="switch-link" id="switchLink">Register</span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMessage">Done</span></div>
+
+<script>
+  (function() {
+    // ─── STATE ───
+    // In-memory user store (simulated database)
+    // Pre-populated with demo users
+    let usersDB = [
+      { id: 1, username: 'demo', password: 'demo', role: 'user', name: 'Demo', surname: 'User', email: 'demo@user.com' },
+      { id: 2, username: 'admin', password: 'admin', role: 'admin', name: 'Admin', surname: 'Demo', email: 'admin@demo.com' },
+      { id: 3, username: 'alice', password: 'alice123', role: 'user', name: 'Alice', surname: 'Smith', email: 'alice@example.com' },
+      { id: 4, username: 'bob', password: 'bob123', role: 'user', name: 'Bob', surname: 'Johnson', email: 'bob@example.com' }
+    ];
+    let nextUserId = 5;
+    let currentUser = null; // { username, role, name, surname, email }
+
+    // ─── DOM REFS ───
+    const roleBtns = document.querySelectorAll('#roleSelector .selector-btn');
+    const modeBtns = document.querySelectorAll('#modeToggle .mode-btn');
+    const form = document.getElementById('authForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const regName = document.getElementById('regName');
+    const regSurname = document.getElementById('regSurname');
+    const regEmail = document.getElementById('regEmail');
+    const regConfirm = document.getElementById('regConfirm');
+    const registerFields = document.getElementById('registerFields');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitLabel = document.getElementById('submitLabel');
+    const errorMsg = document.getElementById('errorMsg');
+    const errorText = document.getElementById('errorText');
+    const successMsg = document.getElementById('successMsg');
+    const successText = document.getElementById('successText');
+    const switchLink = document.getElementById('switchLink');
+    const switchText = document.getElementById('switchText');
+
+    let selectedRole = 'user';
+    let currentMode = 'login'; // 'login' or 'register'
+
+    // ─── TOAST ───
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorMsg.classList.add('show');
+      successMsg.classList.remove('show');
+      setTimeout(() => errorMsg.classList.remove('show'), 4000);
+    }
+
+    function showSuccess(msg) {
+      successText.textContent = msg;
+      successMsg.classList.add('show');
+      errorMsg.classList.remove('show');
+      setTimeout(() => successMsg.classList.remove('show'), 3000);
+    }
+
+    // ─── UPDATE UI ───
+    function updateUI() {
+      // Update button label
+      if (currentMode === 'login') {
+        submitLabel.textContent = selectedRole === 'admin' ? 'Admin Sign In' : 'Sign In';
+        submitBtn.querySelector('i').className = 'fas fa-sign-in-alt';
+        submitBtn.className = 'btn-submit' + (selectedRole === 'admin' ? ' admin-btn' : '');
+        switchText.textContent = "Don't have an account?";
+        switchLink.textContent = 'Register';
+        registerFields.classList.remove('show');
+        // Remove required from register fields
+        document.querySelectorAll('#registerFields input').forEach(el => el.required = false);
+        // Enable required for login fields
+        usernameInput.required = true;
+        passwordInput.required = true;
+      } else {
+        submitLabel.textContent = selectedRole === 'admin' ? 'Register as Admin' : 'Register';
+        submitBtn.querySelector('i').className = 'fas fa-user-plus';
+        submitBtn.className = 'btn-submit' + (selectedRole === 'admin' ? ' admin-btn' : '');
+        switchText.textContent = 'Already have an account?';
+        switchLink.textContent = 'Login';
+        registerFields.classList.add('show');
+        document.querySelectorAll('#registerFields input').forEach(el => el.required = true);
+        usernameInput.required = true;
+        passwordInput.required = true;
+      }
+
+      // Update role button active state
+      roleBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.role === selectedRole);
+      });
+
+      // Update mode button active state
+      modeBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === currentMode);
+      });
+    }
+
+    // ─── HANDLE AUTH ───
+    function handleAuth(e) {
+      e.preventDefault();
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        showError('Please enter username and password.');
+        return;
+      }
+
+      if (currentMode === 'login') {
+        // ─── LOGIN ───
+        const user = usersDB.find(u => u.username === username && u.password === password);
+        if (!user) {
+          showError('Invalid username or password.');
+          return;
+        }
+        // Check role match
+        if (selectedRole === 'admin' && user.role !== 'admin') {
+          showError('This account is not an admin. Please login as user.');
+          return;
+        }
+        if (selectedRole === 'user' && user.role !== 'user') {
+          showError('This account is an admin. Please login as admin.');
+          return;
+        }
+
+        // Success
+        currentUser = user;
+        showSuccess(`Welcome ${user.name || user.username}! Redirecting...`);
+        showToast(`Logged in as ${user.role === 'admin' ? 'Admin' : 'User'}`);
+
+        // Simulate redirect after delay
+        setTimeout(() => {
+          // In a real app, redirect to dashboard
+          if (user.role === 'admin') {
+            alert('🔐 Admin Dashboard\n\n' +
+                  `Logged in as: ${user.username}\n` +
+                  `Name: ${user.name} ${user.surname}\n` +
+                  `Email: ${user.email}\n\n` +
+                  '👉 This would redirect to the Admin Dashboard.');
+          } else {
+            alert('👤 User Profile\n\n' +
+                  `Logged in as: ${user.username}\n` +
+                  `Name: ${user.name} ${user.surname}\n` +
+                  `Email: ${user.email}\n\n` +
+                  '👉 This would redirect to the User Profile Wizard.');
+          }
+          // Reset form for demo
+          form.reset();
+          // Clear messages
+          errorMsg.classList.remove('show');
+          successMsg.classList.remove('show');
+        }, 1200);
+
+      } else {
+        // ─── REGISTER ───
+        const name = regName.value.trim() || 'New';
+        const surname = regSurname.value.trim() || 'User';
+        const email = regEmail.value.trim() || `${username}@example.com`;
+        const confirm = regConfirm.value.trim();
+
+        if (password !== confirm) {
+          showError('Passwords do not match.');
+          return;
+        }
+
+        if (password.length < 3) {
+          showError('Password must be at least 3 characters.');
+          return;
+        }
+
+        // Check if username exists
+        if (usersDB.find(u => u.username === username)) {
+          showError('Username already taken. Please choose another.');
+          return;
+        }
+
+        // Create user
+        const newUser = {
+          id: nextUserId++,
+          username,
+          password,
+          role: selectedRole,
+          name,
+          surname,
+          email
+        };
+        usersDB.push(newUser);
+        showSuccess(`Account created! Welcome ${name}!`);
+        showToast('Registration successful!');
+
+        // Auto-login after registration
+        setTimeout(() => {
+          currentUser = newUser;
+          if (selectedRole === 'admin') {
+            alert('🔐 Admin Account Created!\n\n' +
+                  `Username: ${username}\n` +
+                  `Name: ${name} ${surname}\n` +
+                  `Email: ${email}\n\n` +
+                  '👉 This would redirect to the Admin Dashboard.');
+          } else {
+            alert('👤 User Account Created!\n\n' +
+                  `Username: ${username}\n` +
+                  `Name: ${name} ${surname}\n` +
+                  `Email: ${email}\n\n` +
+                  '👉 This would redirect to the User Profile Wizard.');
+          }
+          form.reset();
+          // Switch to login mode
+          currentMode = 'login';
+          updateUI();
+          errorMsg.classList.remove('show');
+          successMsg.classList.remove('show');
+        }, 1200);
+      }
+    }
+
+    // ─── EVENT LISTENERS ───
+
+    // Role selection
+    roleBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        selectedRole = this.dataset.role;
+        updateUI();
+        // Clear messages
+        errorMsg.classList.remove('show');
+        successMsg.classList.remove('show');
+      });
+    });
+
+    // Mode toggle
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentMode = this.dataset.mode;
+        updateUI();
+        // Clear messages
+        errorMsg.classList.remove('show');
+        successMsg.classList.remove('show');
+        // Reset form fields
+        form.reset();
+      });
+    });
+
+    // Switch link (Login/Register toggle)
+    switchLink.addEventListener('click', function() {
+      currentMode = (currentMode === 'login') ? 'register' : 'login';
+      updateUI();
+      errorMsg.classList.remove('show');
+      successMsg.classList.remove('show');
+      form.reset();
+    });
+
+    // Form submit
+    form.addEventListener('submit', handleAuth);
+
+    // Enter key on fields triggers submit
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit'));
+        }
+      });
+    });
+
+    // ─── DEMO: Pre-fill for quick testing ───
+    // Quick demo: click on role buttons to see different login experiences
+    // Already pre-filled with 'demo'/'demo' and 'admin'/'admin'
+
+    // ─── INIT ───
+    updateUI();
+    showToast('🔑 Login with demo/demo or admin/admin');
+
+    // Expose usersDB for debugging (optional)
+    console.log('📦 Users DB:', usersDB);
+    console.log('💡 Tip: Login with demo/demo (user) or admin/admin (admin)');
+  })();
+</script>
+</body>
+</html>
